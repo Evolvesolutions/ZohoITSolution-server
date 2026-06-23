@@ -4,10 +4,11 @@ import { protect, adminOnly } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-// Admin only: Get all applications
+// Admin only: Get all applications (optionally filtered by type)
 router.get('/', protect, adminOnly, async (req, res) => {
   try {
-    const apps = await InternApplication.find().sort({ submittedAt: -1 });
+    const filter = req.query.type ? { type: req.query.type } : {};
+    const apps = await InternApplication.find(filter).sort({ submittedAt: -1 });
     res.json(apps);
   } catch (error) {
     res.status(500).json({ message: error.message });

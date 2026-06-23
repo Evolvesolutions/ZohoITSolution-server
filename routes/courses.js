@@ -25,6 +25,20 @@ router.post('/', protect, adminOnly, async (req, res) => {
   }
 });
 
+// Admin only: Update a course
+router.put('/:id', protect, adminOnly, async (req, res) => {
+  try {
+    const updatedCourse = await Course.findByIdAndUpdate(
+      req.params.id, 
+      req.body, 
+      { new: true }
+    );
+    res.json(updatedCourse);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
 // Admin only: Delete a course
 router.delete('/:id', protect, adminOnly, async (req, res) => {
   try {
