@@ -26,8 +26,12 @@ router.put('/company', protect, adminOnly, async (req, res) => {
       settings = new Settings();
     }
     
+    console.log('Incoming payload:', req.body);
+    
     settings.companyName = req.body.companyName || settings.companyName;
-    settings.address = req.body.address || settings.address;
+    settings.addresses = req.body.addresses !== undefined ? req.body.addresses : settings.addresses;
+    
+    console.log('Modified settings before save:', settings.addresses);
     settings.phone = req.body.phone || settings.phone;
     settings.email = req.body.email || settings.email;
     settings.workingHours = req.body.workingHours || settings.workingHours;
