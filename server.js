@@ -8,6 +8,7 @@ import courseRoutes from './routes/courses.js';
 import applicationRoutes from './routes/applications.js';
 import settingsRoutes from './routes/settings.js';
 import adminRoutes from './routes/admin.js';
+import messageRoutes from './routes/messages.js';
 
 dotenv.config();
 connectDB();
@@ -23,6 +24,7 @@ app.use('/api/courses', courseRoutes);
 app.use('/api/applications', applicationRoutes);
 app.use('/api/settings', settingsRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/messages', messageRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

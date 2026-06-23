@@ -49,4 +49,18 @@ router.put('/:id/status', protect, adminOnly, async (req, res) => {
   }
 });
 
+// Admin only: Delete application
+router.delete('/:id', protect, adminOnly, async (req, res) => {
+  try {
+    const deletedApp = await InternApplication.findByIdAndDelete(req.params.id);
+    if (deletedApp) {
+      res.json({ message: 'Application deleted successfully' });
+    } else {
+      res.status(404).json({ message: 'Application not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 export default router;

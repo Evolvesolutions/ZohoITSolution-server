@@ -2,6 +2,7 @@ import express from 'express';
 import User from '../models/User.js';
 import Course from '../models/Course.js';
 import InternApplication from '../models/InternApplication.js';
+import ContactMessage from '../models/ContactMessage.js';
 import { protect, adminOnly } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
@@ -17,12 +18,18 @@ router.get('/stats', protect, adminOnly, async (req, res) => {
     const pendingInterns = await InternApplication.countDocuments({ status: 'Pending' });
     const acceptedInterns = await InternApplication.countDocuments({ status: 'Accepted' });
 
+    // Message counts
+    const messageCount = await ContactMessage.countDocuments();
+    const unreadMessages = await ContactMessage.countDocuments({ status: 'Unread' });
+
     res.json({
       users: userCount,
       interns: internCount,
       courses: courseCount,
       pendingInterns,
-      acceptedInterns
+      acceptedInterns,
+      messages: messageCount,
+      unreadMessages
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
